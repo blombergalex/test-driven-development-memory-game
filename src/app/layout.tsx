@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "Memorista",
-    description: "The ultimate mfkin memory game",
+    description: "The ultimate memory game",
 };
 
 export default function RootLayout({
