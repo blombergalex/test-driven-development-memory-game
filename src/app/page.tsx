@@ -21,8 +21,8 @@ const images: string[] = [
 export default function Home() {
   const [cards, setCards] = useState<CardType[]>([]);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
-  // const [matchedCards, setMatchedCards] = useState<number[]>([]);
   const [moves, setMoves] = useState<number>(0);
+  const [finalMoves, setFinalMoves] = useState<number>(0);
   const [solved, setSolved] = useState<number[]>([])
   const [win, setWin] = useState<boolean>(false);
   const [highscore, setHighscore] = useState<number>(0);
@@ -44,6 +44,7 @@ export default function Home() {
     setFlippedCards([]);
     setSolved([]);
     setMoves(0);
+    setWin(false); 
   };
 
   useEffect(() => {
@@ -54,18 +55,6 @@ export default function Home() {
     }
     startGame();
   }, []);
-
-  // useEffect(() => {
-  //   if (solved.length === 10 ) {
-  //         setWin(true);
-  //         if(moves < highscore || highscore === 0) {
-  //           console.log("game won")
-  //           setHighscore(moves + 2);
-  //           localStorage.setItem("highscore", highscore.toString());
-  //           console.log("new highscore: "+ highscore);
-  //         }
-  //       }
-  // }, [solved, moves]);
 
   const handleCardClick = (index: number) => {
     if (
@@ -83,27 +72,46 @@ export default function Home() {
       if (firstCard.image === secondCard.image) {
         const newMatchedCards = [...solved, firstIndex, secondIndex];
         setSolved(newMatchedCards);
-        console.log("new matched cards: " + newMatchedCards);
+        console.log(newMatchedCards.length);
         
         if (newMatchedCards.length === 12) {
           setWin(true); 
-          console.log("game won!")
-          if (moves < highscore || highscore === 0) {
-            console.log("Game won with new highscore");
-            const newHighscore = moves + 2; // Add 2 to match your logic
-            setHighscore(newHighscore);
-            localStorage.setItem("highscore", newHighscore.toString());
-            console.log("New highscore: " + newHighscore);
-          }
-        //
+          // console.log("Final moves: " + moves) // loggar 19 vid 20 moves, alltså en efter. 
+          // setFinalMoves(moves + 1);
+          // console.log(finalMoves);
+        }
       }
-    }
-    setTimeout(() => 
-      setFlippedCards([]), 1100);
+      setTimeout(() => 
+        setFlippedCards([]), 1100);
+    };
+    
+    setMoves((prevMoves) => prevMoves + 1);
+    console.log(moves) 
   };
 
-    setMoves((prevMoves) => prevMoves + 1);
-  };
+  useEffect(() => {
+    if (win) {
+      setFinalMoves(moves); 
+      console.log("Final moves set to: " + moves);
+    }
+  }, [win, moves]); 
+  
+  useEffect(() => {
+    if(win) {
+      console.log("game won!")
+      console.log("current highscore: " + highscore);
+
+      if (finalMoves < highscore || highscore === 0) {
+        console.log("Game won with new highscore");
+
+        const newHighscore = finalMoves;
+        setHighscore(newHighscore);
+
+        localStorage.setItem("highscore", newHighscore.toString());
+        console.log("New highscore set: " + newHighscore);
+      }
+    }
+    }, [finalMoves])
 
   return (
     <main className="min-h-screen bg-yellow-100 flex flex-col items-center justify-center">
