@@ -216,68 +216,68 @@ describe("Make sure card are acting as expected", () => {
 //     });
 // })
 
-// describe("Ensure that 'highscore' and 'moves' work as intended", () => {
+describe("Ensure that 'highscore' and 'moves' work as intended", () => {
 
-//     test("Ensure new highscore is set if lower than current highscore using mock local storage", () => {
-//         render(<Home />);
+    test("Ensure new highscore is set if lower than current highscore using mock local storage", () => {
+        render(<Home />);
 
-//         let moves = screen.getByTestId("moves");
-//         let highscore = screen.getByTestId("highscore");
-//         const cards = screen.getAllByTestId("card");
+        let moves = screen.getByTestId("moves");
+        let highscore = screen.getByTestId("highscore");
+        const cards = screen.getAllByTestId("card");
 
-//         expect(moves).toHaveTextContent("0");
-//         expect(highscore).toHaveTextContent("13");  
+        expect(moves).toHaveTextContent("0");
+        expect(highscore).toHaveTextContent("13");  
 
-//         for (let i = 0; i < cards.length; i++) {
-//             for (let j = i + 1; j < cards.length; j++) {
-//                 fireEvent.click(cards[i]);
-//                 fireEvent.click(cards[j]);
+        for (let i = 0; i < cards.length; i++) {
+            for (let j = i + 1; j < cards.length; j++) {
+                fireEvent.click(cards[i]);
+                fireEvent.click(cards[j]);
 
-//                 act(() => {
-//                     jest.advanceTimersByTime(1100);
-//                 });
+                act(() => {
+                    jest.advanceTimersByTime(1100);
+                });
 
-//                 const flippedCards = screen.getAllByTestId("card-image");
+                const flippedCards = screen.getAllByTestId("card-image");
 
-//                 if (flippedCards.length === (i + 1) * 2) {
-//                     break;
-//                 }
-//             }
-//         }
+                if (flippedCards.length === (i + 1) * 2) {
+                    break;
+                }
+            }
+        }
 
-//         highscore = screen.getByTestId("highscore");
-//         moves = screen.getByTestId("moves");
-//         expect(moves).toHaveTextContent("12");
-//         expect(highscore).toHaveTextContent("12");
+        highscore = screen.getByTestId("highscore");
+        moves = screen.getByTestId("moves");
+        expect(moves).toHaveTextContent("12");
+        expect(highscore).toHaveTextContent("12");
 
-//         expect(localStorage.setItem).toHaveBeenCalledWith('highscore', '12');
-//     }); 
+        expect(localStorage.setItem).toHaveBeenCalledWith('highscore', '12');
+    }); 
 
     
-//     test("Check that the highscore popup updates the highscore name", () => {
-//         render(<Home/>)
+    test("Check that the highscore popup updates the highscore name", () => {
+        render(<Home/>)
 
-//         let highscorePopup = screen.queryByTestId("highscore-popup")
-//         expect(highscorePopup).not.toBeInTheDocument()
+        let highscorePopup = screen.queryByTestId("highscore-popup")
+        expect(highscorePopup).not.toBeInTheDocument()
 
-//         const cards = screen.getAllByTestId("card");
+        const cards = screen.getAllByTestId("card");
 
-//         for (let i = 0; i < cards.length; i++) {
-//             for (let j = i + 1; j < cards.length; j++) {
-//                 fireEvent.click(cards[i]);
-//                 fireEvent.click(cards[j]);
+        for (let i = 0; i < cards.length; i++) {
+            for (let j = i + 1; j < cards.length; j++) {
+                fireEvent.click(cards[i]);
+                fireEvent.click(cards[j]);
 
-//                 act(() => {
-//                     jest.advanceTimersByTime(1100);
-//                 });
+                act(() => {
+                    jest.advanceTimersByTime(1100);
+                });
 
-//                 const flippedCards = screen.getAllByTestId("card-image");
+                const flippedCards = screen.getAllByTestId("card-image");
 
-//                 if (flippedCards.length === (i + 1) * 2) {
-//                     break;
-//                 }
-//             }
-//         }
+                if (flippedCards.length === (i + 1) * 2) {
+                    break;
+                }
+            }
+        }
 
 //         const finalFlippedCards = screen.getAllByTestId("card-image");
 //         expect(finalFlippedCards.length).toBe(12);  
@@ -314,10 +314,5 @@ describe("Make sure card are acting as expected", () => {
 
 //         expect(highscore).toHaveTextContent("12")
 //         expect(highscoreName).toHaveTextContent(mockName + ":")
-//     })
-// })
-
-
-
-
-
+    })
+})

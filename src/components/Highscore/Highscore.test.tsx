@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import Home from "../components/Highscore";
-import Highscore from "../components/Highscore";
+import Home from ".";
+import Highscore from ".";
 
 const mockFunction = () => {
     return

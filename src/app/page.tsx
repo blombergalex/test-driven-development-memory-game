@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Card from "@/components/Card";
+import Highscore from "@/components/Highscore";
 
-interface CardType {
+type CardType = {
   id: number;
   image: string;
 }
@@ -22,12 +23,22 @@ export default function Home() {
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [matchedCards, setMatchedCards] = useState<number[]>([]);
   const [moves, setMoves] = useState<number>(0);
+  // const [solved, setSolved] = useState<number[]>([])
+  const [win, setWin] = useState<boolean>(false);
+  const [highscore, setHighscore] = useState<number>(0);
+  // const [newHighscore, setNewHighscore] = useState<boolean>(false);
 
-  useEffect(() => {
-    initializeGame();
-  }, []);
 
-  const initializeGame = () => {
+  const shuffleCards = (array: string[]): CardType[] => {
+      return array
+        .map((image) => ({
+          image,
+          id: Math.random(),
+        }))
+        .sort(() => Math.random() - 0.5);
+    };
+
+  const startGame = () => {
     const shuffledCards = shuffleCards([...images, ...images]);
     setCards(shuffledCards);
     setFlippedCards([]);
@@ -35,38 +46,61 @@ export default function Home() {
     setMoves(0);
   };
 
-  const shuffleCards = (array: string[]): CardType[] => {
-    return array
-      .map((image) => ({
-        image,
-        id: Math.random(),
-      }))
-      .sort(() => Math.random() - 0.5);
-  };
+  useEffect(() => {
+    const savedHighscore = localStorage.getItem('highscore');
+    if(savedHighscore) {
+      setHighscore(parseInt(savedHighscore, 10));
+      console.log(highscore)
+    }
+    startGame();
+  }, []);
+
+  useEffect(() => {
+    if (matchedCards.length === 10 ) {
+          setWin(true);
+          if(moves < highscore || highscore === 0) {
+            console.log("game won")
+            setHighscore(moves + 2);
+            localStorage.setItem("highscore", highscore.toString());
+            console.log("new highscore: "+ highscore);
+          }
+        }
+  }, [matchedCards, moves]);
 
   const handleCardClick = (index: number) => {
     if (
-      flippedCards.length === 2 ||
-      flippedCards.includes(index) ||
-      matchedCards.includes(index)
-    )
-      return;
+      flippedCards.length === 2 || flippedCards.includes(index) || matchedCards.includes(index)
+    ) return; // exit if above is true ie if flipped cards are 2, or if the clicked card is already flipped or if a matchedcard is flipped
 
     const newFlippedCards = [...flippedCards, index];
-
     setFlippedCards(newFlippedCards);
 
     if (newFlippedCards.length === 2) {
       const [firstIndex, secondIndex] = newFlippedCards;
       const firstCard = cards[firstIndex];
       const secondCard = cards[secondIndex];
-
+    
       if (firstCard.image === secondCard.image) {
-        setMatchedCards((prev) => [...prev, firstIndex, secondIndex]);
+        const newMatchedCards = [...matchedCards, firstIndex, secondIndex];
+        setMatchedCards(newMatchedCards);
+        console.log("new matched cards: " + newMatchedCards);
+        
+        if (newMatchedCards.length === 12) {
+          setWin(true); 
+          console.log("game won!")
+          if (moves < highscore || highscore === 0) {
+            console.log("Game won with new highscore");
+            const newHighscore = moves + 2; // Add 2 to match your logic
+            setHighscore(newHighscore);
+            localStorage.setItem("highscore", newHighscore.toString());
+            console.log("New highscore: " + newHighscore);
+          }
+        //
       }
-
-      setTimeout(() => setFlippedCards([]), 1100);
     }
+    setTimeout(() => 
+      setFlippedCards([]), 1100);
+  };
 
     setMoves((prevMoves) => prevMoves + 1);
   };
@@ -87,6 +121,7 @@ export default function Home() {
       </div>
       <div className="text-lg font-semibold" data-testid="moves">
         Moves: {moves}
+        {/* {newHighscore && <Highscore updateNewHighscore={() => setNewHighscore(false)} /> } */}
       </div>
     </main>
   );
