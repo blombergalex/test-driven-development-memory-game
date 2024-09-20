@@ -21,9 +21,9 @@ const images: string[] = [
 export default function Home() {
   const [cards, setCards] = useState<CardType[]>([]);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
-  const [matchedCards, setMatchedCards] = useState<number[]>([]);
+  // const [matchedCards, setMatchedCards] = useState<number[]>([]);
   const [moves, setMoves] = useState<number>(0);
-  // const [solved, setSolved] = useState<number[]>([])
+  const [solved, setSolved] = useState<number[]>([])
   const [win, setWin] = useState<boolean>(false);
   const [highscore, setHighscore] = useState<number>(0);
   // const [newHighscore, setNewHighscore] = useState<boolean>(false);
@@ -42,7 +42,7 @@ export default function Home() {
     const shuffledCards = shuffleCards([...images, ...images]);
     setCards(shuffledCards);
     setFlippedCards([]);
-    setMatchedCards([]);
+    setSolved([]);
     setMoves(0);
   };
 
@@ -55,21 +55,21 @@ export default function Home() {
     startGame();
   }, []);
 
-  useEffect(() => {
-    if (matchedCards.length === 10 ) {
-          setWin(true);
-          if(moves < highscore || highscore === 0) {
-            console.log("game won")
-            setHighscore(moves + 2);
-            localStorage.setItem("highscore", highscore.toString());
-            console.log("new highscore: "+ highscore);
-          }
-        }
-  }, [matchedCards, moves]);
+  // useEffect(() => {
+  //   if (solved.length === 10 ) {
+  //         setWin(true);
+  //         if(moves < highscore || highscore === 0) {
+  //           console.log("game won")
+  //           setHighscore(moves + 2);
+  //           localStorage.setItem("highscore", highscore.toString());
+  //           console.log("new highscore: "+ highscore);
+  //         }
+  //       }
+  // }, [solved, moves]);
 
   const handleCardClick = (index: number) => {
     if (
-      flippedCards.length === 2 || flippedCards.includes(index) || matchedCards.includes(index)
+      flippedCards.length === 2 || flippedCards.includes(index) || solved.includes(index)
     ) return; // exit if above is true ie if flipped cards are 2, or if the clicked card is already flipped or if a matchedcard is flipped
 
     const newFlippedCards = [...flippedCards, index];
@@ -81,8 +81,8 @@ export default function Home() {
       const secondCard = cards[secondIndex];
     
       if (firstCard.image === secondCard.image) {
-        const newMatchedCards = [...matchedCards, firstIndex, secondIndex];
-        setMatchedCards(newMatchedCards);
+        const newMatchedCards = [...solved, firstIndex, secondIndex];
+        setSolved(newMatchedCards);
         console.log("new matched cards: " + newMatchedCards);
         
         if (newMatchedCards.length === 12) {
@@ -113,7 +113,7 @@ export default function Home() {
             key={card.id}
             image={card.image}
             isFlipped={
-              flippedCards.includes(index) || matchedCards.includes(index)
+              flippedCards.includes(index) || solved.includes(index)
             }
             onClick={() => handleCardClick(index)}
           />
