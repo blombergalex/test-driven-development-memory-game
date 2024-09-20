@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Card from "@/components/Card";
+import Footer from "@/components/Footer";
 
 interface CardType {
   id: number;
@@ -72,22 +73,25 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-yellow-100 flex flex-col items-center justify-center">
-      <div className="grid grid-cols-4 gap-4 max-w-lg">
-        {cards.map((card, index) => (
-          <Card
-            key={card.id}
-            image={card.image}
-            isFlipped={
-              flippedCards.includes(index) || matchedCards.includes(index)
-            }
-            onClick={() => handleCardClick(index)}
-          />
-        ))}
-      </div>
-      <div className="text-lg font-semibold" data-testid="moves">
-        Moves: {moves}
-      </div>
-    </main>
+    <div className="flex flex-col">
+      <main className="min-h-screen bg-yellow-100 flex flex-col grow items-center justify-center">
+        <div className="grid grid-cols-4 gap-4 max-w-lg">
+          {cards.map((card, index) => (
+            <Card
+              key={card.id}
+              image={card.image}
+              isFlipped={
+                flippedCards.includes(index) || matchedCards.includes(index)
+              }
+              onClick={() => handleCardClick(index)}
+            />
+          ))}
+        </div>
+        <div className="text-lg font-semibold" data-testid="moves">
+          Moves: {moves}
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 }

@@ -1,0 +1,18 @@
+import React from "react";
+import Rules from "../Rules";
+
+const Footer = () => {
+  return (
+    <div
+      role="contentinfo"
+      className="flex flex-col items-center space-y-4 p-4 pt-6 bg-gray-200 text-white w-full"
+    >
+      <Rules />
+      <p data-testid="copyright" className="text-sm">
+        © Darius Kaya
+      </p>
+    </div>
+  );
+};
+
+export default Footer;
