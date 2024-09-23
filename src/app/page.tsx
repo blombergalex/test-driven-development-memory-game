@@ -76,38 +76,30 @@ export default function Home() {
         
         if (newMatchedCards.length === 12) {
           setWin(true); 
+          console.log("game won")
         }
       }
       setTimeout(() => 
         setFlippedCards([]), 1100);
     };
     
-    setMoves((prevMoves) => prevMoves + 1);
-    console.log(moves)
+    setMoves((prevMoves) => prevMoves + 1); // is correct 
+    console.log(moves) //delayed with one
   };
 
   useEffect(() => {
     if (win) {
-      setFinalMoves(moves); 
-      console.log('game won')
-      console.log(finalMoves)
-
-    }
-  }, [win, moves]); 
+      const totalMoves = moves; // Get the final moves count
+      console.log(totalMoves) // blir rätt!!!
   
-  useEffect(() => {
-    if(win) {
-
-      if (finalMoves < highscore || highscore === 0) {
-
-        const newHighscore = finalMoves;
+      if (totalMoves < highscore || highscore === 0) {
+        const newHighscore = totalMoves;
         setHighscore(newHighscore);
-
         localStorage.setItem("highscore", newHighscore.toString());
         console.log("New highscore set: " + newHighscore);
       }
     }
-    }, [finalMoves])
+  }, [win, moves]);
 
   return (
     <main className="min-h-screen bg-yellow-100 flex flex-col items-center justify-center pt-24">
