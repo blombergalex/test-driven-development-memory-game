@@ -93,8 +93,6 @@ export default function Home() {
       const totalMoves = moves;
   
       if (totalMoves < highscore || highscore === 0) {
-        // const newHighscore = totalMoves;
-        // setHighscore(newHighscore);
         setNewHighscore(totalMoves); //set new highscore for popup
         setIsNewHighscore(true); // trigger the popup 
       }
@@ -123,12 +121,17 @@ export default function Home() {
         ))}
       </div>
       <div className="text-lg font-semibold bg-yellow-200 m-8 p-4 rounded-lg" data-testid="moves">
-        Moves: {moves}
-        <Highscore
+        <p>Moves: {moves}</p>
+        <div data-testid="highscore-display" className='flex space-x-1'>
+              <p>Highscore: <span className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
+              <p className='text-amber-600'>{localStorage.getItem('highscore')}</p>
+        </div>
+        {isNewHighscore && (
+          <Highscore
           newHighscore={newHighscore}
-          onSubmitName={handleNameSubmit}
-          isNewHighscore={isNewHighscore}
-        />
+          updateNewHighscore={handleNameSubmit}
+          />
+        )}
         {/* {highscore > 0 && <Highscore updateNewHighscore={() => setHighscore(highscore)} /> } */}
       </div>
       <Footer />
