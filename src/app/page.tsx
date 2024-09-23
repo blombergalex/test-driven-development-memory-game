@@ -27,6 +27,9 @@ export default function Home() {
   const [win, setWin] = useState<boolean>(false);
   const [highscore, setHighscore] = useState<number>(0);
 
+  const [isNewHighscore, setIsNewHighscore] = useState<boolean>(false); // New state for popup
+  const [newHighscore, setNewHighscore] = useState<number>(0)
+
 
   const shuffleCards = (array: string[]): CardType[] => {
       return array
@@ -45,10 +48,11 @@ export default function Home() {
     setMoves(0);
     setWin(false); 
     console.log(localStorage.highscore);
+    setIsNewHighscore(false);
   };
 
   useEffect(() => {
-    const savedHighscore = localStorage.getItem('highscore');
+    const savedHighscore = localStorage.getItem("highscore");
     if(savedHighscore) {
       setHighscore(parseInt(savedHighscore, 10));
     }
@@ -71,7 +75,6 @@ export default function Home() {
       if (firstCard.image === secondCard.image) {
         const newMatchedCards = [...solved, firstIndex, secondIndex];
         setSolved(newMatchedCards);
-        console.log(solved)
         
         if (newMatchedCards.length === 12) {
           setWin(true); 
@@ -88,19 +91,25 @@ export default function Home() {
   useEffect(() => {
     if (win) {
       const totalMoves = moves;
-      console.log(totalMoves) // blir rätt!!!
   
       if (totalMoves < highscore || highscore === 0) {
-        const newHighscore = totalMoves;
-        setHighscore(newHighscore);
-        localStorage.setItem("highscore", newHighscore.toString());
-        console.log("New highscore set: " + newHighscore);
+        // const newHighscore = totalMoves;
+        // setHighscore(newHighscore);
+        setNewHighscore(totalMoves); //set new highscore for popup
+        setIsNewHighscore(true); // trigger the popup 
       }
     }
   }, [win, moves]);
 
+  const handleNameSubmit = (name: string) => {
+    localStorage.setItem("name", name);
+    localStorage.setItem("highscore", newHighscore.toString());
+    setHighscore(newHighscore); //update the highscore in state
+    setIsNewHighscore(false) //close the popup
+  }
+
   return (
-    <main className="min-h-screen bg-yellow-100 flex flex-col items-center justify-center pt-24">
+    <main className="min-h-screen w-full bg-yellow-100 flex flex-col items-center pt-24">
       <div className="grid grid-cols-4 gap-4 max-w-lg">
         {cards.map((card, index) => (
           <Card
@@ -113,9 +122,14 @@ export default function Home() {
           />
         ))}
       </div>
-      <div className="text-lg font-semibold" data-testid="moves">
+      <div className="text-lg font-semibold bg-yellow-200 m-8 p-4 rounded-lg" data-testid="moves">
         Moves: {moves}
-        {highscore > 0 && <Highscore updateNewHighscore={() => setHighscore(highscore)} /> }
+        <Highscore
+          newHighscore={newHighscore}
+          onSubmitName={handleNameSubmit}
+          isNewHighscore={isNewHighscore}
+        />
+        {/* {highscore > 0 && <Highscore updateNewHighscore={() => setHighscore(highscore)} /> } */}
       </div>
       <Footer />
     </main>
