@@ -7,6 +7,8 @@ interface HighscoreProps {
 const Highscore: React.FC<HighscoreProps> = ({ updateNewHighscore }) => {
   const [name, setName] = useState('');
 
+  const number = localStorage.highscore;
+
   const handleSubmit = () => {
     localStorage.setItem('name', name);
     updateNewHighscore();
@@ -15,6 +17,7 @@ const Highscore: React.FC<HighscoreProps> = ({ updateNewHighscore }) => {
   return (
     <div data-testid="highscore-popup">
       <h2>Highscore: {name}</h2>
+      <h2>{number}</h2>
       <input
         data-testid="input"
         type="text"

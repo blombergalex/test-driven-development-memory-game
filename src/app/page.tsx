@@ -23,11 +23,9 @@ export default function Home() {
   const [cards, setCards] = useState<CardType[]>([]);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [moves, setMoves] = useState<number>(0);
-  const [finalMoves, setFinalMoves] = useState<number>(0);
   const [solved, setSolved] = useState<number[]>([])
   const [win, setWin] = useState<boolean>(false);
   const [highscore, setHighscore] = useState<number>(0);
-  // const [newHighscore, setNewHighscore] = useState<boolean>(false);
 
 
   const shuffleCards = (array: string[]): CardType[] => {
@@ -46,6 +44,7 @@ export default function Home() {
     setSolved([]);
     setMoves(0);
     setWin(false); 
+    console.log(localStorage.highscore);
   };
 
   useEffect(() => {
@@ -83,13 +82,12 @@ export default function Home() {
         setFlippedCards([]), 1100);
     };
     
-    setMoves((prevMoves) => prevMoves + 1); // is correct 
-    console.log(moves) //delayed with one
+    setMoves((prevMoves) => prevMoves + 1);
   };
 
   useEffect(() => {
     if (win) {
-      const totalMoves = moves; // Get the final moves count
+      const totalMoves = moves;
       console.log(totalMoves) // blir rätt!!!
   
       if (totalMoves < highscore || highscore === 0) {
