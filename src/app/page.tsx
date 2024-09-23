@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Card from "@/components/Card";
 import Footer from "@/components/Footer";
 import Highscore from "@/components/Highscore";
+import NewGameButton from "@/components/NewGameBtn";
 
 type CardType = {
   id: number;
@@ -26,8 +27,7 @@ export default function Home() {
   const [solved, setSolved] = useState<number[]>([])
   const [win, setWin] = useState<boolean>(false);
   const [highscore, setHighscore] = useState<number>(0);
-
-  const [isNewHighscore, setIsNewHighscore] = useState<boolean>(false); // New state for popup
+  const [isNewHighscore, setIsNewHighscore] = useState<boolean>(false);
   const [newHighscore, setNewHighscore] = useState<number>(0)
 
 
@@ -108,6 +108,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-full bg-yellow-100 flex flex-col grow items-center justify-center">
+      <NewGameButton newRound={startGame}/>
       <div className="grid grid-cols-4 gap-4 max-w-lg">
         {cards.map((card, index) => (
           <Card
@@ -132,7 +133,6 @@ export default function Home() {
           updateNewHighscore={handleNameSubmit}
           />
         )}
-        {/* {highscore > 0 && <Highscore updateNewHighscore={() => setHighscore(highscore)} /> } */}
       </div>
       <Footer />
     </main>

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import NewGameButton from "../components/NewGameBtn";
+import NewGameButton from ".";
 
 test("Check that New Game button renders correctly", () => {
     const mockFunction = () => {
