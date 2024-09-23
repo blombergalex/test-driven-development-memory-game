@@ -16,7 +16,7 @@ const Card: React.FC<CardProps> = ({ image, isFlipped, onClick }) => {
       {isFlipped ? (
         <img data-testid="card-image" src={image} alt="card image" className="w-full h-full object-contain"/>
       ) : (
-        <div className="text-4xl font-bold text-gray-500">
+        <div className="text-4xl font-bold text-amber-900">
           ?
         </div>
       )}

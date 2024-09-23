@@ -14,7 +14,7 @@ const Highscore: React.FC<HighscoreProps> = ({ updateNewHighscore }) => {
 
   return (
     <div data-testid="highscore-popup">
-      <h2>New Highscore!</h2>
+      <h2>Highscore: {name}</h2>
       <input
         data-testid="input"
         type="text"
@@ -28,4 +28,4 @@ const Highscore: React.FC<HighscoreProps> = ({ updateNewHighscore }) => {
 
 export default Highscore;
 
-// highscore.test passed  
+// highscore.test passed 

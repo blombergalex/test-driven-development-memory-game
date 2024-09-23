@@ -56,51 +56,51 @@ describe("Make sure card are acting as expected", () => {
         expect(cardImages.length).toBe(2)
     })
 
-    // test("Find a match by systematically clicking the first card with each other card", async () => {
-    //     render(<Home />);
+    test("Find a match by systematically clicking the first card with each other card", async () => { 
 
-    //     const cards = screen.getAllByText("?");
-    //     let matched = false;
-    //     let visibleImages = screen.queryAllByTestId("card-image");
+        const cards = screen.getAllByText("?");
+        let matched = false;
+        let visibleImages = screen.queryAllByTestId("card-image");
 
-    //     for (let i = 1; i < cards.length; i++) {
-    //         fireEvent.click(cards[0]);
-    //         fireEvent.click(cards[i]);
+        for (let i = 1; i < cards.length; i++) {
+            fireEvent.click(cards[0]);
+            fireEvent.click(cards[i]);
 
-    //         await waitFor(() => {
-    //             visibleImages = screen.queryAllByTestId("card-image");
-    //             if (visibleImages.length === 2) {
+            await waitFor(() => {
+                visibleImages = screen.queryAllByTestId("card-image");
+                if (visibleImages.length === 2) {
 
-    //                 const firstImage = visibleImages[0] as HTMLImageElement;
-    //                 const secondImage = visibleImages[1] as HTMLImageElement;
+                    const firstImage = visibleImages[0] as HTMLImageElement;
+                    const secondImage = visibleImages[1] as HTMLImageElement;
 
-    //                 if (firstImage.src === secondImage.src) {
-    //                     matched = true;
-    //                 }
-    //             }
-    //         }, { timeout: 1100 });
+                    if (firstImage.src === secondImage.src) {
+                        matched = true;
+                    }
+                }
+            }, { timeout: 1100 });
 
-    //         if (matched) {
-    //             break;
-    //         }
-    //     }
+            if (matched) {
+                break;
+            }
+        }
 
-    //     visibleImages = screen.getAllByTestId("card-image");
+        visibleImages = screen.getAllByTestId("card-image");
 
-    //     expect(visibleImages.length).toBe(2)
-    //     expect(matched).toBe(true);
-    // });
+        expect(visibleImages.length).toBe(2)
+        expect(matched).toBe(true);
+    });
     
     test("Check that the two clicked cards unflip if no match", async () => {
         render(<Home />)
         const cards = screen.getAllByTestId("card");
+
         let visibleImages = screen.queryAllByTestId("card-image");
         
         fireEvent.click(cards[0])
         fireEvent.click(cards[1])
         
         visibleImages = screen.queryAllByTestId("card-image");
-        
+
         const firstImage = visibleImages[0] as HTMLImageElement;
         const secondImage = visibleImages[1] as HTMLImageElement;
         
@@ -112,32 +112,31 @@ describe("Make sure card are acting as expected", () => {
         }
     })
     
+    test("Ensure that all matches are found by systematically clicking every card in combination", () => {
+        render(<Home />);
 
-    // test("Ensure that all matches are found by systematically clicking every card in combination", () => {
-    //     render(<Home />);
+        const cards = screen.getAllByTestId("card");
 
-    //     const cards = screen.getAllByTestId("card");
+        for (let i = 0; i < cards.length; i++) {
+            for (let j = i + 1; j < cards.length; j++) {
+                fireEvent.click(cards[i]);
+                fireEvent.click(cards[j]);
 
-    //     for (let i = 0; i < cards.length; i++) {
-    //         for (let j = i + 1; j < cards.length; j++) {
-    //             fireEvent.click(cards[i]);
-    //             fireEvent.click(cards[j]);
+                act(() => {
+                    jest.advanceTimersByTime(1100);
+                });
 
-    //             act(() => {
-    //                 jest.advanceTimersByTime(1100);
-    //             });
+                const flippedCards = screen.getAllByTestId("card-image");
 
-    //             const flippedCards = screen.getAllByTestId("card-image");
+                if (flippedCards.length === (i + 1) * 2) {
+                    break; 
+                }
+            }
+        }
 
-    //             if (flippedCards.length === (i + 1) * 2) {
-    //                 break; 
-    //             }
-    //         }
-    //     }
-
-    //     const finalFlippedCards = screen.getAllByTestId("card-image");
-    //     expect(finalFlippedCards.length).toBe(12);  
-    // });
+        const finalFlippedCards = screen.getAllByTestId("card-image");
+        expect(finalFlippedCards.length).toBe(12);  
+    });
 })
 
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "@/components/Card";
+import Footer from "@/components/Footer";
 import Highscore from "@/components/Highscore";
 
 type CardType = {
@@ -51,7 +52,6 @@ export default function Home() {
     const savedHighscore = localStorage.getItem('highscore');
     if(savedHighscore) {
       setHighscore(parseInt(savedHighscore, 10));
-      console.log(highscore)
     }
     startGame();
   }, []);
@@ -59,7 +59,7 @@ export default function Home() {
   const handleCardClick = (index: number) => {
     if (
       flippedCards.length === 2 || flippedCards.includes(index) || solved.includes(index)
-    ) return; // exit if above is true ie if flipped cards are 2, or if the clicked card is already flipped or if a matchedcard is flipped
+    ) return; 
 
     const newFlippedCards = [...flippedCards, index];
     setFlippedCards(newFlippedCards);
@@ -72,13 +72,10 @@ export default function Home() {
       if (firstCard.image === secondCard.image) {
         const newMatchedCards = [...solved, firstIndex, secondIndex];
         setSolved(newMatchedCards);
-        console.log(newMatchedCards.length);
+        console.log(solved)
         
         if (newMatchedCards.length === 12) {
           setWin(true); 
-          // console.log("Final moves: " + moves) // loggar 19 vid 20 moves, alltså en efter. 
-          // setFinalMoves(moves + 1);
-          // console.log(finalMoves);
         }
       }
       setTimeout(() => 
@@ -86,23 +83,22 @@ export default function Home() {
     };
     
     setMoves((prevMoves) => prevMoves + 1);
-    console.log(moves) 
+    console.log(moves)
   };
 
   useEffect(() => {
     if (win) {
       setFinalMoves(moves); 
-      console.log("Final moves set to: " + moves);
+      console.log('game won')
+      console.log(finalMoves)
+
     }
   }, [win, moves]); 
   
   useEffect(() => {
     if(win) {
-      console.log("game won!")
-      console.log("current highscore: " + highscore);
 
       if (finalMoves < highscore || highscore === 0) {
-        console.log("Game won with new highscore");
 
         const newHighscore = finalMoves;
         setHighscore(newHighscore);
@@ -114,7 +110,7 @@ export default function Home() {
     }, [finalMoves])
 
   return (
-    <main className="min-h-screen bg-yellow-100 flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-yellow-100 flex flex-col items-center justify-center pt-24">
       <div className="grid grid-cols-4 gap-4 max-w-lg">
         {cards.map((card, index) => (
           <Card
@@ -129,8 +125,9 @@ export default function Home() {
       </div>
       <div className="text-lg font-semibold" data-testid="moves">
         Moves: {moves}
-        {/* {newHighscore && <Highscore updateNewHighscore={() => setNewHighscore(false)} /> } */}
+        {highscore > 0 && <Highscore updateNewHighscore={() => setHighscore(highscore)} /> }
       </div>
+      <Footer />
     </main>
   );
 }
