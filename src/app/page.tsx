@@ -107,7 +107,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen w-full bg-yellow-100 flex flex-col items-center pt-24">
+    <main className="min-h-screen w-full bg-yellow-100 flex flex-col grow items-center justify-center">
       <div className="grid grid-cols-4 gap-4 max-w-lg">
         {cards.map((card, index) => (
           <Card
