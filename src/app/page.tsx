@@ -108,31 +108,33 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-full bg-yellow-100 flex flex-col grow items-center justify-center">
-      <NewGameButton newRound={startGame}/>
-      <div className="grid grid-cols-4 gap-2 w-sm mx-2 md:w-lg md:gap-4">
+      <div className="grid grid-cols-4 gap-2 w-sm m-4 md:w-lg md:gap-4">
         {cards.map((card, index) => (
           <Card
-            key={card.id}
+          key={card.id}
             image={card.image}
             isFlipped={
               flippedCards.includes(index) || solved.includes(index)
             }
             onClick={() => handleCardClick(index)}
-          />
-        ))}
+            />
+          ))}
       </div>
-      <div className="text-lg font-semibold bg-yellow-200 m-8 p-4 rounded-lg" data-testid="moves">
-        <p>Moves: {moves}</p>
-        <div data-testid="highscore-display" className='flex space-x-1'>
-              <p>Highscore: <span className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
-              <p data-testid="highscore" className='text-amber-600'>{localStorage.getItem('highscore')}</p>
+      <div className="flex justify-evenly w-sm md:w-lg">
+        <div className="text-lg font-semibold bg-yellow-200 m-2 p-4 rounded-lg" data-testid="moves">
+          <p>Moves: {moves}</p>
+          <div data-testid="highscore-display" className='flex space-x-1'>
+                <p>Highscore: <span className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
+                <p data-testid="highscore" className='text-amber-600'>{localStorage.getItem('highscore')}</p>
+          </div>
+          {isNewHighscore && (
+            <Highscore
+            newHighscore={newHighscore}
+            updateNewHighscore={handleNameSubmit}
+            />
+          )}
         </div>
-        {isNewHighscore && (
-          <Highscore
-          newHighscore={newHighscore}
-          updateNewHighscore={handleNameSubmit}
-          />
-        )}
+          <NewGameButton newRound={startGame}/>
       </div>
       <Footer />
     </main>

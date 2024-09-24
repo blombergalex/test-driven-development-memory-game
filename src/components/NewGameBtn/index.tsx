@@ -9,7 +9,7 @@ const NewGameButton = ({ newRound }: NewGameButtonProps) => {
     <button
       data-testid="new-game-btn"
       onClick={newRound} 
-      className="bg-amber-500 text-white py-2 px-4 m-4 rounded hover:bg-amber-600"
+      className="bg-amber-500 text-white py-2 px-4 m-4 rounded h-30 hover:bg-amber-600"
     >
       New Game
     </button>
