@@ -109,7 +109,7 @@ export default function Home() {
   return (
     <main className="min-h-screen w-full bg-yellow-100 flex flex-col grow items-center justify-center">
       <NewGameButton newRound={startGame}/>
-      <div className="grid grid-cols-4 gap-4 max-w-lg">
+      <div className="grid grid-cols-4 gap-2 w-sm mx-2 md:w-lg md:gap-4">
         {cards.map((card, index) => (
           <Card
             key={card.id}
@@ -125,7 +125,7 @@ export default function Home() {
         <p>Moves: {moves}</p>
         <div data-testid="highscore-display" className='flex space-x-1'>
               <p>Highscore: <span className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
-              <p className='text-amber-600'>{localStorage.getItem('highscore')}</p>
+              <p data-testid="highscore" className='text-amber-600'>{localStorage.getItem('highscore')}</p>
         </div>
         {isNewHighscore && (
           <Highscore

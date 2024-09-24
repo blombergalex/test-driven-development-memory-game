@@ -10,7 +10,7 @@ const Card: React.FC<CardProps> = ({ image, isFlipped, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="w-24 h-32 flex justify-center items-center bg-white border-2 border-amber-500 shadow-md rounded-lg cursor-pointer transition-transform transform hover:scale-105"
+      className="w-20 h-28 flex justify-center items-center bg-white border-2 border-amber-500 shadow-md rounded-lg cursor-pointer transition-transform transform hover:scale-105 md:w-24 md:h-36"
       data-testid="card"
     >
       {isFlipped ? (
