@@ -47,7 +47,7 @@ export default function Home() {
     setSolved([]);
     setMoves(0);
     setWin(false); 
-    console.log(localStorage.highscore);
+    // console.log(localStorage.highscore);
     setIsNewHighscore(false);
   };
 

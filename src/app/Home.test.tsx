@@ -65,7 +65,9 @@ describe("Make sure card are acting as expected", () => { // Suite pass at fb37c
 
         for (let i = 1; i < cards.length; i++) {
             fireEvent.click(cards[0]);
+            // console.log(`Clicked first card at index 0`); //added by me
             fireEvent.click(cards[i]);
+            // console.log(`Clicked second card at index ${i}`); //added by me
 
             await waitFor(() => {
                 visibleImages = screen.queryAllByTestId("card-image");
@@ -74,44 +76,51 @@ describe("Make sure card are acting as expected", () => { // Suite pass at fb37c
                     const firstImage = visibleImages[0] as HTMLImageElement;
                     const secondImage = visibleImages[1] as HTMLImageElement;
 
+                    // console.log(`First card image src: ${firstImage.src}`); //added by me
+                    // console.log(`Second card image src: ${secondImage.src}`); //added by me
+
                     if (firstImage.src === secondImage.src) {
                         matched = true;
+                        console.log("Found a match!"); //added by me
+                    } 
+                    else {
+                        console.log("No match found."); //added by me
                     }
                 }
             }, { timeout: 1100 });
 
             if (matched) {
-                break;
+                break; //ask Rob why it breaks anyway!
             }
         }
 
         visibleImages = screen.getAllByTestId("card-image");
+        console.log(`Total visible cards: ${visibleImages.length}`);
 
         expect(visibleImages.length).toBe(2)
         expect(matched).toBe(true);
     });
     
-//     test("Check that the two clicked cards unflip if no match", async () => {
-//         render(<Home />)
-//         const cards = screen.getAllByTestId("card");
+    test("Check that the two clicked cards unflip if no match", async () => {
+        render(<Home />)
+        const cards = screen.getAllByTestId("card");
+        let visibleImages = screen.queryAllByTestId("card-image");
+        
+        fireEvent.click(cards[0])
+        fireEvent.click(cards[1])
+        
+        visibleImages = screen.queryAllByTestId("card-image");
 
-//         let visibleImages = screen.queryAllByTestId("card-image");
+        const firstImage = visibleImages[0] as HTMLImageElement;
+        const secondImage = visibleImages[1] as HTMLImageElement;
         
-//         fireEvent.click(cards[0])
-//         fireEvent.click(cards[1])
-        
-//         visibleImages = screen.queryAllByTestId("card-image");
-
-//         const firstImage = visibleImages[0] as HTMLImageElement;
-//         const secondImage = visibleImages[1] as HTMLImageElement;
-        
-//         if (firstImage.src !== secondImage.src) {
-//             await waitFor(() => {
-//                 visibleImages = screen.queryAllByTestId("card-image");
-//                 expect(visibleImages).toBe(0)
-//             }, { timeout: 1500 })
-//         }
-//     })
+        if (firstImage.src !== secondImage.src) {
+            await waitFor(() => {
+                visibleImages = screen.queryAllByTestId("card-image");
+                expect(visibleImages).toBe(0) //somehow it logs an empty string instead of 0, check structure of code 
+            }, { timeout: 1500 })
+        }
+    })
     
 //     test("Ensure that all matches are found by systematically clicking every card in combination", () => {
 //         render(<Home />);
