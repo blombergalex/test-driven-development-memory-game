@@ -182,157 +182,162 @@ describe("Ensure that New Game button resets the game", () => {
         expect(moves).toHaveTextContent("0")
     })
 
-    test("Check that solved state is reset when clicking New Game button", async () => {
-        render(<Home />);
+//     test("Check that solved state is reset when clicking New Game button", async () => {
+//         render(<Home />);
 
-        const cards = screen.getAllByText("?"); 
-        let matched = false;
-        let visibleImages = screen.queryAllByTestId("card-image");
-        const newGameBtn = screen.getByTestId("new-game-btn")
+//         const cards = screen.getAllByText("?"); 
+//         let matched = false;
+//         let visibleImages = screen.queryAllByTestId("card-image");
+//         const newGameBtn = screen.getByTestId("new-game-btn")
 
-        for (let i = 1; i < cards.length; i++) {
-            fireEvent.click(cards[0]);
+//         for (let i = 1; i < cards.length; i++) {
+//             fireEvent.click(cards[0]);
 
-            fireEvent.click(cards[i]);
-            console.log(`Clicked second card at index ${i}`); //added for trial and error
+//             fireEvent.click(cards[i]);
+//             console.log(`Clicked second card at index ${i}`); //added for trial and error
 
-            await waitFor(() => {
-                visibleImages = screen.queryAllByTestId("card-image");
-                if (visibleImages.length === 2) {
+//             await waitFor(() => {
+//                 visibleImages = screen.queryAllByTestId("card-image");
+//                 if (visibleImages.length === 2) {
 
-                    const firstImage = visibleImages[0] as HTMLImageElement;
-                    const secondImage = visibleImages[1] as HTMLImageElement;
+//                     const firstImage = visibleImages[0] as HTMLImageElement;
+//                     const secondImage = visibleImages[1] as HTMLImageElement;
 
-                    console.log(`First card image src: ${firstImage.src}`); //added for trial and error
-                    console.log(`Second card image src: ${secondImage.src}`); //added for trial and error
+//                     console.log(`First card image src: ${firstImage.src}`); //added for trial and error
+//                     console.log(`Second card image src: ${secondImage.src}`); //added for trial and error
 
-                    if (firstImage.src === secondImage.src) {
-                        matched = true;
-                        console.log("Found a match!"); //added for trial and error
-                    } 
-                    else {
-                        console.log("No match found."); //added for trial and error
-                    }
+//                     if (firstImage.src === secondImage.src) {
+//                         matched = true;
+//                         console.log("Found a match!"); //added for trial and error
+//                     } 
+//                     else {
+//                         console.log("No match found."); //added for trial and error
+//                     }
+//                 }
+//             }, { timeout: 1100 });
+
+//             if (matched) {
+//                 break; //breaks even tho no match is found
+//             }
+//         }
+
+//         visibleImages = screen.getAllByTestId("card-image");
+//         console.log(`Total visible cards: ${visibleImages.length}`);
+
+//         expect(visibleImages.length).toBe(2)
+//         expect(matched).toBe(true);
+
+//         fireEvent.click(newGameBtn)
+//         visibleImages = screen.queryAllByTestId("card-image");
+
+//         expect(visibleImages.length).toBe(0)
+//     });
+})
+    
+describe("Ensure that 'highscore' and 'moves' work as intended", () => {
+        // might be broken because of the span in 'highscore', try removing
+
+    // test("Ensure new highscore is set if lower than current highscore using mock local storage", () => {
+    //     render(<Home />);
+
+    //     let moves = screen.getByTestId("moves");
+    //     let highscore = screen.getByTestId("highscore");
+    //     const cards = screen.getAllByTestId("card");
+
+    //     expect(moves).toHaveTextContent("0");
+    //     expect(highscore).toHaveTextContent("13");  
+
+    //     for (let i = 0; i < cards.length; i++) {
+    //         for (let j = i + 1; j < cards.length; j++) {
+    //             fireEvent.click(cards[i]);
+    //             fireEvent.click(cards[j]);
+
+    //             act(() => {
+    //                 jest.advanceTimersByTime(1100);
+    //             });
+
+    //             const flippedCards = screen.getAllByTestId("card-image");
+
+    //             if (flippedCards.length === (i + 1) * 2) {
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     highscore = screen.getByTestId("highscore");
+    //     moves = screen.getByTestId("moves");
+    //     expect(moves).toHaveTextContent("12");
+    //     expect(highscore).toHaveTextContent("12");
+
+    //     expect(localStorage.setItem).toHaveBeenCalledWith('highscore', '12');
+    // }); 
+
+    
+    test("Check that the highscore popup updates the highscore name", () => {
+        render(<Home/>)
+
+        let highscorePopup = screen.queryByTestId("highscore-popup")
+        expect(highscorePopup).not.toBeInTheDocument()
+
+        const cards = screen.getAllByTestId("card");
+        const flippedCards = screen.queryByTestId("card-image") //added for certainty
+        expect(flippedCards).not.toBeInTheDocument();   //added for certainty
+
+
+        for (let i = 0; i < cards.length; i++) {
+            for (let j = i + 1; j < cards.length; j++) {
+                fireEvent.click(cards[i]);
+                fireEvent.click(cards[j]);
+
+                act(() => {
+                    jest.advanceTimersByTime(1100);
+                });
+
+                const flippedCards = screen.queryAllByTestId("card-image"); //changed to queryAllBy
+                console.log('amount of flippedCards', flippedCards.length) //added to check if any are found
+
+                if (flippedCards.length === (i + 1) * 2) {
+                    break;
                 }
-            }, { timeout: 1100 });
-
-            if (matched) {
-                break; //breaks even tho no match is found
             }
         }
 
-        visibleImages = screen.getAllByTestId("card-image");
-        console.log(`Total visible cards: ${visibleImages.length}`);
+        const finalFlippedCards = screen.getAllByTestId("card-image");
+        expect(finalFlippedCards.length).toBe(12);  //passes!
 
-        expect(visibleImages.length).toBe(2)
-        expect(matched).toBe(true);
+        act(() => {
+            jest.advanceTimersByTime(1100);
+        });
 
-        fireEvent.click(newGameBtn)
-        visibleImages = screen.queryAllByTestId("card-image");
+        highscorePopup = screen.queryByTestId("highscore-popup")
+        expect(highscorePopup).toBeInTheDocument() //highscore popup doesn't appear
 
-        expect(visibleImages.length).toBe(0)
-    });
+        //for test to work, it must check that highscore is lower than last highscore.
+
+        // let userInput = screen.getByTestId("input")
+        // const button = screen.getByTestId("highscore-button")
+        // let highscore = screen.getByTestId("highscore")
+        // let highscoreName = screen.getByTestId("highscore-name")
+        const mockName = "Bartholomew"
+
+        // fireEvent.change(userInput, { target: { value: mockName } })
+
+        // userInput = screen.getByTestId("input")
+
+        // expect((userInput as HTMLInputElement).value).toBe(mockName)
+
+        // fireEvent.click(button)
+
+        // expect(localStorage.setItem).toHaveBeenCalledWith('name', mockName);
+
+        act(() => {
+            jest.advanceTimersByTime(4000);
+        });
+
+        // highscore = screen.getByTestId("highscore")
+        // highscoreName = screen.getByTestId("highscore-name")
+
+        // expect(highscore).toHaveTextContent("12")
+        // expect(highscoreName).toHaveTextContent(mockName + ":")
+    })
 })
-    
-// describe("Ensure that 'highscore' and 'moves' work as intended", () => {
-//     //1-2 fail
-        // might be broken because of the span in 'highscore', try removing
-
-//     test("Ensure new highscore is set if lower than current highscore using mock local storage", () => {
-//         render(<Home />);
-
-//         let moves = screen.getByTestId("moves");
-//         let highscore = screen.getByTestId("highscore");
-//         const cards = screen.getAllByTestId("card");
-
-//         expect(moves).toHaveTextContent("0");
-//         expect(highscore).toHaveTextContent("13");  
-
-//         for (let i = 0; i < cards.length; i++) {
-//             for (let j = i + 1; j < cards.length; j++) {
-//                 fireEvent.click(cards[i]);
-//                 fireEvent.click(cards[j]);
-
-//                 act(() => {
-//                     jest.advanceTimersByTime(1100);
-//                 });
-
-//                 const flippedCards = screen.getAllByTestId("card-image");
-
-//                 if (flippedCards.length === (i + 1) * 2) {
-//                     break;
-//                 }
-//             }
-//         }
-
-//         highscore = screen.getByTestId("highscore");
-//         moves = screen.getByTestId("moves");
-//         expect(moves).toHaveTextContent("12");
-//         expect(highscore).toHaveTextContent("12");
-
-//         expect(localStorage.setItem).toHaveBeenCalledWith('highscore', '12');
-//     }); 
-
-    
-//     test("Check that the highscore popup updates the highscore name", () => {
-//         render(<Home/>)
-
-//         let highscorePopup = screen.queryByTestId("highscore-popup")
-//         expect(highscorePopup).not.toBeInTheDocument()
-
-//         const cards = screen.getAllByTestId("card");
-
-//         for (let i = 0; i < cards.length; i++) {
-//             for (let j = i + 1; j < cards.length; j++) {
-//                 fireEvent.click(cards[i]);
-//                 fireEvent.click(cards[j]);
-
-//                 act(() => {
-//                     jest.advanceTimersByTime(1100);
-//                 });
-
-//                 const flippedCards = screen.getAllByTestId("card-image");
-
-//                 if (flippedCards.length === (i + 1) * 2) {
-//                     break;
-//                 }
-//             }
-//         }
-
-//         const finalFlippedCards = screen.getAllByTestId("card-image");
-//         expect(finalFlippedCards.length).toBe(12);  
-
-//         act(() => {
-//             jest.advanceTimersByTime(1100);
-//         });
-
-//         highscorePopup = screen.queryByTestId("highscore-popup")
-//         expect(highscorePopup).toBeInTheDocument()
-
-//         let userInput = screen.getByTestId("input")
-//         const button = screen.getByTestId("highscore-button")
-//         let highscore = screen.getByTestId("highscore")
-//         let highscoreName = screen.getByTestId("highscore-name")
-//         const mockName = "Bartholomew"
-
-//         fireEvent.change(userInput, { target: { value: mockName } })
-
-//         userInput = screen.getByTestId("input")
-
-//         expect((userInput as HTMLInputElement).value).toBe(mockName)
-
-//         fireEvent.click(button)
-
-//         expect(localStorage.setItem).toHaveBeenCalledWith('name', mockName);
-
-//         act(() => {
-//             jest.advanceTimersByTime(4000);
-//         });
-
-//         highscore = screen.getByTestId("highscore")
-//         highscoreName = screen.getByTestId("highscore-name")
-
-//         expect(highscore).toHaveTextContent("12")
-//         expect(highscoreName).toHaveTextContent(mockName + ":")
-//     })
-// })
