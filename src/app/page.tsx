@@ -106,14 +106,14 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen w-full bg-yellow-100 flex flex-col grow items-center justify-center">
+    <main className="min-h-screen w-full bg-yellow-100 flex flex-col items-center justify-between">
       <div className="grid grid-cols-4 gap-2 w-sm m-4 md:w-lg md:gap-4">
         {cards.map((card, index) => (
           <Card
           key={card.id}
-            image={card.image}
-            isFlipped={
-              flippedCards.includes(index) || solved.includes(index)
+          image={card.image}
+          isFlipped={
+            flippedCards.includes(index) || solved.includes(index)
             }
             onClick={() => handleCardClick(index)}
             />
