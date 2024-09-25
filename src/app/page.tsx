@@ -106,33 +106,35 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-full bg-yellow-100 flex flex-col items-center justify-between">
-      <div className="grid grid-cols-4 gap-2 w-sm m-4 md:w-lg md:gap-4">
-        {cards.map((card, index) => (
-          <Card
-          key={card.id}
-          image={card.image}
-          isFlipped={
-            flippedCards.includes(index) || solved.includes(index)
-            }
-            onClick={() => handleCardClick(index)}
-            />
-          ))}
-      </div>
-      <div className="flex justify-evenly w-sm md:w-lg">
-        <div className="text-lg font-semibold bg-yellow-200 m-2 p-4 rounded-lg">
-          <p>Moves: <span data-testid="moves">{moves}</span></p>
-          <div data-testid="highscore-display" className='flex space-x-1'>
-                <p>Highscore: <span  data-testid="highscore-name" className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
-                <p data-testid="highscore" className='text-amber-600'>{localStorage.getItem('highscore')}</p>
-          </div>
-          {isNewHighscore && (
-            <Highscore
-            newHighscore={newHighscore}
-            updateNewHighscore={handleNameSubmit}
-            />
-          )}
+      <div>
+        <div className="grid grid-cols-4 gap-2 w-sm m-4 md:w-lg md:gap-4">
+          {cards.map((card, index) => (
+            <Card
+            key={card.id}
+            image={card.image}
+            isFlipped={
+              flippedCards.includes(index) || solved.includes(index)
+              }
+              onClick={() => handleCardClick(index)}
+              />
+            ))}
         </div>
-          <NewGameButton newRound={startGame}/>
+        <div className="flex flex-col justify-evenly w-sm md:w-lg">
+          <div className="text-lg font-semibold bg-yellow-200 m-2 p-4 rounded-lg">
+            <p>Moves: <span data-testid="moves">{moves}</span></p>
+            <div data-testid="highscore-display" className='flex space-x-1'>
+                  <p>Highscore: <span  data-testid="highscore-name" className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
+                  <p data-testid="highscore" className='text-amber-600'>{localStorage.getItem('highscore')}</p>
+            </div>
+            {isNewHighscore && (
+              <Highscore
+              newHighscore={newHighscore}
+              updateNewHighscore={handleNameSubmit}
+              />
+            )}
+          </div>
+            <NewGameButton newRound={startGame}/>
+        </div>
       </div>
       <Footer />
     </main>
