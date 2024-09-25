@@ -283,8 +283,8 @@ describe("Ensure that 'highscore' and 'moves' work as intended", () => {
 
         const cards = screen.getAllByTestId("card");
 
-        const flippedCards = screen.queryByTestId("card-image") //added for certainty
-        expect(flippedCards).not.toBeInTheDocument();   //added for certainty
+        const flippedCards = screen.queryByTestId("card-image") 
+        expect(flippedCards).not.toBeInTheDocument();
 
 
         for (let i = 0; i < cards.length; i++) {
@@ -296,8 +296,7 @@ describe("Ensure that 'highscore' and 'moves' work as intended", () => {
                     jest.advanceTimersByTime(1100);
                 });
 
-                const flippedCards = screen.queryAllByTestId("card-image"); //changed to queryAllBy
-                console.log('amount of flippedCards', flippedCards.length) //added to check if any are found
+                const flippedCards = screen.queryAllByTestId("card-image");
 
                 if (flippedCards.length === (i + 1) * 2) {
                     break;
@@ -313,7 +312,6 @@ describe("Ensure that 'highscore' and 'moves' work as intended", () => {
         });
 
         highscorePopup = screen.queryByTestId("highscore-popup")
-        console.log('highscore')
         expect(highscorePopup).toBeInTheDocument()
 
         let userInput = screen.getByTestId("input")
