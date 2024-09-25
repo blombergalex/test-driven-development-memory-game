@@ -120,8 +120,8 @@ export default function Home() {
           ))}
       </div>
       <div className="flex justify-evenly w-sm md:w-lg">
-        <div className="text-lg font-semibold bg-yellow-200 m-2 p-4 rounded-lg" data-testid="moves">
-          <p>Moves: {moves}</p>
+        <div className="text-lg font-semibold bg-yellow-200 m-2 p-4 rounded-lg">
+          <p>Moves: <span data-testid="moves">{moves}</span></p>
           <div data-testid="highscore-display" className='flex space-x-1'>
                 <p>Highscore: <span className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
                 <p data-testid="highscore" className='text-amber-600'>{localStorage.getItem('highscore')}</p>

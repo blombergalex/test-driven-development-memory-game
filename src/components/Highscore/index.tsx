@@ -32,6 +32,7 @@ const Highscore = ({ newHighscore, updateNewHighscore }: HighscoreProps) => {
       />
       <button
         onClick={handleSubmit}
+        data-testid="sumbit-highscore-btn"
         className="border border-green-700 hover:bg-green-100 text-green-700 font-semibold p-2 ml-1 rounded"
       >
         Submit
