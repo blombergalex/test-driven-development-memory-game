@@ -5,6 +5,7 @@ import Card from "@/components/Card";
 import Footer from "@/components/Footer";
 import Highscore from "@/components/Highscore";
 import NewGameButton from "@/components/NewGameBtn";
+import Header from "@/components/Header";
 
 type CardType = {
   id: number;
@@ -106,7 +107,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-full bg-yellow-100 flex flex-col items-center justify-between">
-      <div>
+      <div className="w-full">
+        <Header />
         <div className="grid grid-cols-4 gap-2 w-sm m-4 md:w-lg md:gap-4">
           {cards.map((card, index) => (
             <Card
