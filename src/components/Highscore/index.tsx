@@ -10,7 +10,6 @@ const Highscore = ({ newHighscore, updateNewHighscore }: HighscoreProps) => {
 
   const handleSubmit = () => {
     if (name.trim()) {
-      console.log(newHighscore);
       localStorage.setItem("name", name);
       localStorage.setItem("highscore", newHighscore.toString());
       updateNewHighscore(name);

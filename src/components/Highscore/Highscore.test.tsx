@@ -16,7 +16,7 @@ describe("Ensure the popup renders correctly and sets name to local storage", ()
         const highscorePopup = screen.queryByTestId("highscore-popup")
         const userInput = screen.queryByTestId("input")
         const title = screen.getByRole("heading", { level: 2 })
-        const submitHighscoreBtn = screen.getByTestId("sumbit-highscore-btn")
+        const submitHighscoreBtn = screen.getByTestId("submit-highscore-btn")
         
         expect(highscorePopup).toBeInTheDocument()
         expect(userInput).toBeInTheDocument()

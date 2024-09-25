@@ -77,7 +77,6 @@ export default function Home() {
         
         if (newMatchedCards.length === 12) {
           setWin(true); 
-          console.log("game won")
         }
       }
       setTimeout(() => 
@@ -92,8 +91,8 @@ export default function Home() {
       const totalMoves = moves;
   
       if (totalMoves < highscore || highscore === 0) {
-        setNewHighscore(totalMoves); //set new highscore for popup
-        setIsNewHighscore(true); // trigger the popup 
+        setNewHighscore(totalMoves);
+        setIsNewHighscore(true);
       }
     }
   }, [win, moves]);
@@ -101,8 +100,8 @@ export default function Home() {
   const handleNameSubmit = (name: string) => {
     localStorage.setItem("name", name);
     localStorage.setItem("highscore", newHighscore.toString());
-    setHighscore(newHighscore); //update the highscore in state
-    setIsNewHighscore(false) //close the popup
+    setHighscore(newHighscore);
+    setIsNewHighscore(false);
   }
 
   return (
