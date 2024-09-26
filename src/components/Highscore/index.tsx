@@ -12,9 +12,15 @@ const Highscore = ({ newHighscore, updateNewHighscore }: HighscoreProps) => {
 
   const handleSubmit = () => {
     if (name.trim()) {
-      localStorage.setItem("name", name);
-      localStorage.setItem("highscore", newHighscore.toString());
-      updateNewHighscore(name);
+      try {
+        if (typeof window !== "undefined") {
+          localStorage.setItem("name", name);
+          localStorage.setItem("highscore", newHighscore.toString());
+        }
+        updateNewHighscore(name);
+      } catch (error) {
+        console.error("Error saving to localStorage: ", error);
+      }
     }
   };
 

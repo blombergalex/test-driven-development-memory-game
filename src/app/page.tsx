@@ -52,9 +52,15 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const savedHighscore = localStorage.getItem("highscore");
-    if(savedHighscore) {
-      setHighscore(parseInt(savedHighscore, 10));
+    try {
+      if (typeof window !== "undefined") {
+        const savedHighscore = localStorage.getItem("highscore");
+        if(savedHighscore) {
+          setHighscore(parseInt(savedHighscore, 10));
+        }
+      }
+    } catch (error) {
+      console.error("Error accessing localStorage: ", error);
     }
     startGame();
   }, []);
@@ -99,11 +105,17 @@ export default function Home() {
   }, [win, moves]);
 
   const handleNameSubmit = (name: string) => {
-    localStorage.setItem("name", name);
-    localStorage.setItem("highscore", newHighscore.toString());
-    setHighscore(newHighscore);
-    setIsNewHighscore(false);
-  }
+    try {
+      if(typeof window !== "undefined") {
+        localStorage.setItem("name", name);
+        localStorage.setItem("highscore", newHighscore.toString());
+        setHighscore(newHighscore);
+        setIsNewHighscore(false);
+      }
+    } catch (error) {
+      console.error("Error saving to localStorage: ", error);
+    }
+  };
 
   return (
     <main className="w-full bg-yellow-100 flex flex-col items-center">
