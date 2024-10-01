@@ -9,7 +9,9 @@ const Footer = () => {
     >
       <Rules />
       <p data-testid="copyright" className="text-sm">
-        © Darius Kaya
+        <a href="https://github.com/blombergalex/test-driven-development-memory-game" target="_blank">
+          © Darius Kaya
+        </a>
       </p>
     </div>
   );
