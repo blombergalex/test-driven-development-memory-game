@@ -18,8 +18,8 @@ const Highscore = ({ newHighscore, updateNewHighscore }: HighscoreProps) => {
 
   return (
     <div data-testid="highscore-popup" className="popup">
-      <h2 className="text-amber-600 font-semibold">
-        New highscore!: {newHighscore} moves
+      <h2 className="text-green-700 font-semibold">
+        New highscore! {newHighscore} moves
       </h2>
       <input
         data-testid="input"

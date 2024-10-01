@@ -128,7 +128,7 @@ export default function Home() {
             ))}
         </div>
         <div className="flex flex-col justify-evenly w-sm md:w-lg">
-          <div className="text-lg font-semibold bg-yellow-200 m-2 p-4 rounded-lg">
+          <div className="text-lg font-semibold bg-yellow-200 m-4 p-4 rounded-lg">
             <p>Moves: <span data-testid="moves">{moves}</span></p>
             <div data-testid="highscore-display" className='flex space-x-1'>
                   <p>Highscore: <span  data-testid="highscore-name" className='text-amber-600'>{name}</span> -</p>
