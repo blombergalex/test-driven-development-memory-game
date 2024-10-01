@@ -8,12 +8,10 @@ type HighscoreProps = {
 };
 
 const Highscore = ({ newHighscore, updateNewHighscore }: HighscoreProps) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string>('');
 
   const handleSubmit = () => {
     if (name.trim()) {
-      localStorage.setItem("name", name);
-      localStorage.setItem("highscore", newHighscore.toString());
       updateNewHighscore(name);
     }
   };

@@ -30,7 +30,7 @@ export default function Home() {
   const [highscore, setHighscore] = useState<number>(0);
   const [isNewHighscore, setIsNewHighscore] = useState<boolean>(false);
   const [newHighscore, setNewHighscore] = useState<number>(0)
-
+  const [name, setName] = useState<string>('');
 
   const shuffleCards = (array: string[]): CardType[] => {
       return array
@@ -53,10 +53,15 @@ export default function Home() {
 
   useEffect(() => {
     const savedHighscore = localStorage.getItem("highscore");
-    if(savedHighscore) {
+    const savedName = localStorage.getItem("name");
+    if (savedHighscore) {
       setHighscore(parseInt(savedHighscore, 10));
     }
     startGame();
+
+    if (savedName) {
+      setName(savedName);
+    }
   }, []);
 
   const handleCardClick = (index: number) => {
@@ -98,10 +103,11 @@ export default function Home() {
     }
   }, [win, moves]);
 
-  const handleNameSubmit = (name: string) => {
-    localStorage.setItem("name", name);
+  const handleNameSubmit = (submittedName: string) => {
+    localStorage.setItem("name", submittedName);
     localStorage.setItem("highscore", newHighscore.toString());
     setHighscore(newHighscore);
+    setName(submittedName);
     setIsNewHighscore(false);
   }
 
@@ -125,8 +131,8 @@ export default function Home() {
           <div className="text-lg font-semibold bg-yellow-200 m-2 p-4 rounded-lg">
             <p>Moves: <span data-testid="moves">{moves}</span></p>
             <div data-testid="highscore-display" className='flex space-x-1'>
-                  <p>Highscore: <span  data-testid="highscore-name" className='text-amber-600'>{localStorage.getItem('name')}</span> -</p>
-                  <p data-testid="highscore" className='text-amber-600'>{localStorage.getItem('highscore')}</p>
+                  <p>Highscore: <span  data-testid="highscore-name" className='text-amber-600'>{name}</span> -</p>
+                  <p data-testid="highscore" className='text-amber-600'>{highscore}</p>
             </div>
             {isNewHighscore && (
               <Highscore
